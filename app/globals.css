@@ -106,3 +106,29 @@ body {
 .li:not(:hover) .myArrow-anim {
   animation: moveUpAndDownFromBelowRev 0.25s ease-in-out;
 }
+
+
+.spinner-anim:hover {
+  animation: spinquarter 0.5s linear;
+}
+
+@keyframes spinquarter {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(60deg);
+  }
+}
+.circle-anim {
+  animation: spin 9.5s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
