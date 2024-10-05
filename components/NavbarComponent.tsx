@@ -86,7 +86,7 @@ const NavbarComponent = () => {
             </div>
           </div>
 
-          <div className="li relative justify-center overflow-hidden items-center gap-[1.1vw] py-[0.04vw] pl-[2.22vw] pr-[0.28vw] min-w-[12.22vw] text-[1.11vw] text-[#eee] leading-[1.89vw] font-thin border-[0.1vw] rounded-[8.9vw] border-gray-200 md:flex hidden cursor-pointer">
+          <div className={`${open ? "hidden":"li relative justify-center overflow-hidden items-center gap-[1.1vw] py-[0.04vw] pl-[2.22vw] pr-[0.28vw] min-w-[12.22vw] text-[1.11vw] text-[#eee] leading-[1.89vw] font-thin border-[0.1vw] rounded-[8.9vw] border-gray-200 md:flex hidden cursor-pointer"}`}>
             <div className="myAnim-in">Explore</div>
             <div className="myAnim-out left-[2.2vw]">Explore</div>
             <div className="relative overflow-hidden min-w-[2.8vw] max-w-[2.8vw] min-h-[2.8vw] max-h-[2.8vw] bg-white rounded-full flex justify-center items-center text-black">
@@ -145,7 +145,7 @@ const NavbarComponent = () => {
       <div
         className={`${
           open
-            ? "absolute top-0 left-0 right-0 bottom-0 z-20 bg-black h-screen "
+            ? "absolute top-0 left-0 right-0 bottom-0 z-20 bg-[#1c1c1c] h-screen "
             : "hidden"
         }`}
       >
