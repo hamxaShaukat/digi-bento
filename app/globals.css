@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap");
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Archivo, sans-serif;
+  font-size: 1vw;
+
+  box-sizing: border-box;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.myAnim-in,
+.myAnim-out {
+  transition: transform 0.2s ease-in-out; /* Smooth transition */
+}
+
+.myAnim-out {
+  position: absolute; /* Stack the two links on top of each other */
+}
+
+.myAnim-in {
+  transform: translate3d(0, 0, 0); /* Default state, fully visible */
+}
+
+.myAnim-out {
+  transform: translate3d(0, 100%, 0); /* Start below the .dis */
+}
+
+/* On hover, swap their positions */
+.li:hover .myAnim-in {
+  transform: translate3d(0, -100%, 0); /* Move the first one up */
+}
+
+.li:hover .myAnim-out {
+  transform: translate3d(0, 0, 0); /* Move the second one into view */
+}
+
+.parent-arrow-anim {
+  overflow: hidden;
+  position: relative;
+}
+
+.myArrow-anim {
+  /* animation: none; */
+  position: absolute;
+  /* left: 0;
+  right: 0; */
+  /* transform: translateY(0); */
+}
+
+@keyframes moveUpAndDownFromBelow {
+  0% {
+    transform: translate3d(0%, 0%, 0px); /* Start in view */
+  }
+  50% {
+    transform: translate3d(100%, -100%, 0px); /* Move out of view (up) */
+  }
+  51% {
+    transform: translate3d(-100%, 100%, 0px); /* Move out of view (up) */
+  }
+  100% {
+    transform: translate3d(0%, 0%, 0px); /* Start in view */
+  }
+}
+@keyframes moveUpAndDownFromBelowRev {
+  0% {
+    transform: translate3d(0%, 0%, 0px); /* Start in view */
+  }
+  50% {
+    transform: translate3d(100%, -100%, 0px); /* Move out of view (up) */
+  }
+  51% {
+    transform: translate3d(-100%, 100%, 0px); /* Move out of view (up) */
+  }
+  100% {
+    transform: translate3d(0%, 0%, 0px); /* Start in view */
+  }
+}
+
+.li:hover .myArrow-anim {
+  animation: moveUpAndDownFromBelow 0.25s ease-in-out;
+}
+
+.li:not(:hover) .myArrow-anim {
+  animation: moveUpAndDownFromBelowRev 0.25s ease-in-out;
+}
