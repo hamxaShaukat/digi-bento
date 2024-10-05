@@ -2,11 +2,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoMenu } from "react-icons/io5";
+import gsap from "gsap";
 
 const NavbarComponent = () => {
   const [open, setOpen] = useState(false);
+  const menuRef = useRef(null);
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 1024) {
@@ -20,11 +22,33 @@ const NavbarComponent = () => {
     // Clean up the event listener on component unmount
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (open) {
+      // Open menu with sliding down animation
+      gsap.set(menuRef.current, { display: "block" }); // Ensure it's visible
+      gsap.fromTo(
+        menuRef.current,
+        { y: "-100%" }, // Start from above
+        { y: 0, duration: 0.5, ease: "power3.out" } // Animate to its position
+      );
+    } else {
+      // Close menu with sliding up animation
+      gsap.to(menuRef.current, {
+        y: "-100%",
+        duration: 0.5,
+        ease: "power3.in",
+        onComplete: () => {
+          gsap.set(menuRef.current, { display: "none" }); // Hide after animation
+        },
+      });
+    }
+  }, [open]);
   return (
     <div className="relative">
       <div className="h-[7.8vw] bg-transparent flex justify-between items-center mx-auto px-[10vw] absolute inset-[0% 0% auto] w-full uppercase  tracking-[0.07vw] z-50">
         <a
-          className="relative  flex-col justify-center items-center flex"
+          className="relative  flex-col justify-center items-center flex z-30"
           href="/"
         >
           <img
@@ -35,7 +59,7 @@ const NavbarComponent = () => {
         </a>
 
         <div className="flex justify-end items-center mr-0 max-w-[940px]">
-          <div className="mr-[2.2vw] lg:flex hidden relative justify-start text-[0.89vw] font-thin transition-colors">
+          <div className="mr-[2.2vw] lg:flex hidden relative justify-start text-[0.89vw] font-thin transition-colors z-30">
             <div className="li flex flex-col relative overflow-hidden h-[1.3vw] px-[1.4vw] ">
               <a href="" className="text-[#eee] myAnim-in">
                 Home
@@ -86,21 +110,20 @@ const NavbarComponent = () => {
             </div>
           </div>
 
-          <div className={`${open ? "hidden":"li relative justify-center overflow-hidden items-center gap-[1.1vw] py-[0.04vw] pl-[2.22vw] pr-[0.28vw] min-w-[12.22vw] text-[1.11vw] text-[#eee] leading-[1.89vw] font-thin border-[0.1vw] rounded-[8.9vw] border-gray-200 md:flex hidden cursor-pointer"}`}>
+          <div className="li relative justify-center overflow-hidden items-center gap-[1.1vw] py-[0.04vw] pl-[2.22vw] pr-[0.28vw] min-w-[12.22vw] text-[1.11vw] text-[#eee] leading-[1.89vw] font-thin border-[0.1vw] rounded-[8.9vw] border-gray-200 md:flex hidden cursor-pointer">
             <div className="myAnim-in">Explore</div>
             <div className="myAnim-out left-[2.2vw]">Explore</div>
             <div className="relative overflow-hidden min-w-[2.8vw] max-w-[2.8vw] min-h-[2.8vw] max-h-[2.8vw] bg-white rounded-full flex justify-center items-center text-black">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="lucide lucide-arrow-up-right myArrow-anim"
+                className="lucide lucide-arrow-up-right myArrow-anim w-6 h-6"
               >
                 <path d="M7 7h10v10" />
                 <path d="M7 17 17 7" />
@@ -108,7 +131,7 @@ const NavbarComponent = () => {
             </div>
           </div>
 
-          <div className="flex justify-center items-center relative">
+          <div className="flex justify-center items-center relative z-30">
             <a
               href="/"
               className="ml-[1rem] pt-[0.5rem] pl-[0.5rem] pr-[0] pb-[0.5rem] flex justify-center items-center "
@@ -134,58 +157,55 @@ const NavbarComponent = () => {
             </div>
           </div>
           <div
-            className="flex py-[1rem] pl-[1rem] pr-[0px] cursor-pointer lg:hidden"
+            className="flex relative py-[1rem] pl-[1rem] pr-[0px] cursor-pointer lg:hidden z-30"
             onClick={() => setOpen(!open)}
           >
             <IoMenu className="text-[#eee] text-2xl" />
           </div>
         </div>
-      </div>
-
-      <div
-        className={`${
-          open
-            ? "absolute top-0 left-0 right-0 bottom-0 z-20 bg-[#1c1c1c] h-screen "
-            : "hidden"
-        }`}
-      >
-        <div className="flex flex-col items-center h-full relative top-[10vw]">
-          <a
-            href="/"
-            className="text-[4rem] leading-[6rem] px-[1.25rem] min-h-[6rem]"
-          >
-            Home
-          </a>
-          <a
-            href="/"
-            className="text-[4rem] leading-[6rem] px-[1.25rem] min-h-[6rem]"
-          >
-            About
-          </a>
-          <a
-            href="/"
-            className="text-[4rem] leading-[6rem] px-[1.25rem] min-h-[6rem]"
-          >
-            Services
-          </a>
-          <a
-            href="/"
-            className="text-[4rem] leading-[6rem] px-[1.25rem] min-h-[6rem]"
-          >
-            Works
-          </a>
-          <a
-            href="/"
-            className="text-[4rem] leading-[6rem] px-[1.25rem] min-h-[6rem]"
-          >
-            Packages
-          </a>
-          <a
-            href="/"
-            className="text-[4rem] leading-[6rem] px-[1.25rem] min-h-[6rem]"
-          >
-            Contact
-          </a>
+        <div
+          ref={menuRef}
+          className="absolute top-0 left-0 right-0 bottom-0 z-20 bg-[#1c1c1c] h-screen"
+          style={{ display: "none", transform: "translateY(-100%)" }} // Menu starts off-screen and hidden
+        >
+          <div className="flex flex-col items-center h-full relative top-[10vw]">
+            <a
+              href="/"
+              className="text-[4rem] leading-[6rem] px-[1.25rem] min-h-[6rem]"
+            >
+              Home
+            </a>
+            <a
+              href="/"
+              className="text-[4rem] leading-[6rem] px-[1.25rem] min-h-[6rem]"
+            >
+              About
+            </a>
+            <a
+              href="/"
+              className="text-[4rem] leading-[6rem] px-[1.25rem] min-h-[6rem]"
+            >
+              Services
+            </a>
+            <a
+              href="/"
+              className="text-[4rem] leading-[6rem] px-[1.25rem] min-h-[6rem]"
+            >
+              Works
+            </a>
+            <a
+              href="/"
+              className="text-[4rem] leading-[6rem] px-[1.25rem] min-h-[6rem]"
+            >
+              Packages
+            </a>
+            <a
+              href="/"
+              className="text-[4rem] leading-[6rem] px-[1.25rem] min-h-[6rem]"
+            >
+              Contact
+            </a>
+          </div>
         </div>
       </div>
     </div>
